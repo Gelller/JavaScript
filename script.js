@@ -4,8 +4,8 @@ var temperatureF = (9 / 5) * temperatureC + 32
 
 alert("Температура по Фаренгейту " + temperatureF + "F")
 
-var name1 = "Василий"
-var admin = name1.slice()
+var name = "Василий"
+var admin = name.slice()
 alert(admin)
 
 var intOrString = 1000 + "108"
