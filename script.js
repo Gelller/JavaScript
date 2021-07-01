@@ -1,4 +1,4 @@
-
+/*
 var a = prompt("Введите a")
 var b = prompt("Введите b")
 
@@ -151,6 +151,13 @@ function power(val, pow) {
     }
 }
 
-
-
+*/
+var a = 1, b = 1, c, d;
+debugger;
+if (null > 0); // false
+if (null == 0); // false
+if (null >= 0); // true
+if (null < 0); // false
+if (null == 0); // false
+if (null <= 0); // true
 
