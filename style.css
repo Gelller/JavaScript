@@ -1,0 +1,36 @@
+.picture{
+ transform: translate(50%,50%);
+ position: absolute;
+ top:50%;
+ margin-left: 42%;
+ margin-top: 7%;
+ display:none;
+}
+.parent {
+  transform: translate(50%,50%);
+  position: absolute;
+  top:0%;
+  margin-left: 40%;
+}
+.table{
+    position: relative;
+    left: 0px;
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float:left
+} 
+.cell{
+    width: 90px;
+    height: 10px;
+}
+
+.basket{
+    position: relative;
+    right: 0px;
+    top: 0px;
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float: right;
+} 
