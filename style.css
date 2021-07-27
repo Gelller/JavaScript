@@ -1,0 +1,58 @@
+.picture{
+ transform: translate(50%,50%);
+ position: absolute;
+ top:50%;
+ margin-left: 42%;
+ margin-top: 7%;
+ display:none;
+}
+.parent {
+  transform: translate(50%,50%);
+  position: absolute;
+  top:0%;
+  margin-left: 40%;
+}
+.table{
+    position: relative;
+    left: 0px;
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float:left
+} 
+
+.table2{
+    position: absolute;
+    top: 70px;
+    right: 250px;
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float:left;
+    display:none;
+   
+} 
+.cell{
+    width: 90px;
+    height: 10px;
+}
+
+.basket{    
+    position: absolute;
+    top: 70px;
+    right: 200px;
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float: right;
+    display:none;
+} 
+
+.buttonield{
+    position: relative;
+    left: 0px;  
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float: right;
+} 
