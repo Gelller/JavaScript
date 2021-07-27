@@ -20,15 +20,37 @@
     border:2px solid black;
     float:left
 } 
+
+.table2{
+    position: absolute;
+    top: 70px;
+    right: 250px;
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float:left;
+    display:none;
+   
+} 
 .cell{
     width: 90px;
     height: 10px;
 }
 
-.basket{
+.basket{    
+    position: absolute;
+    top: 70px;
+    right: 200px;
+    border-spacing: 0px;
+    border-collapse: separate;
+    border:2px solid black;
+    float: right;
+    display:none;
+} 
+
+.buttonield{
     position: relative;
-    right: 0px;
-    top: 0px;
+    left: 0px;  
     border-spacing: 0px;
     border-collapse: separate;
     border:2px solid black;

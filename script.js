@@ -5,6 +5,7 @@ let catalog = [
 
 ];
 
+
 var product = {
     name: '',
     price: 0,
@@ -18,6 +19,7 @@ var product = {
     }
 }
 
+var tableState = false;
 var listBasket = {
     productList: new Array(),
     addProduct: function (item) {
@@ -68,12 +70,22 @@ apple.addEventListener('click', function () {
     addElement()
 });
 
-function addElement() {
+function emptyСart() {
+    var Table = document.createElement("basketProduct");
+    Table.className = "basket"
+    Table.style.width = "200px"
+    Table.style.height = "50px"
+    Table.id = "tab"
+    var newTr = document.createElement('tr');
+    newTr.textContent = "Корзина пустая"
+    Table.appendChild(newTr);
+    document.body.appendChild(Table);
+}
 
+function addElement() {
     var Table = document.createElement("basketProduct");
     Table.className = "basket"
     Table.id = "tab"
-
     for (var i = 0; i < listBasket.productList.length; i++) {
         var newTr = document.createElement('tr');
 
@@ -96,8 +108,6 @@ function addElement() {
         quantity.textContent = "Кол " + listBasket.productList[i].quantity
         quantity.className = "cell"
         newTr.appendChild(quantity);
-
-
         Table.appendChild(newTr);
     }
 
@@ -113,17 +123,30 @@ function addElement() {
     newTr.appendChild(sumPrice);
     Table.appendChild(newTr);
 
+    var button = document.createElement('button');
+    button.textContent = "Далее"
+    button.id = "nextbutton"
+
+    newTr.appendChild(button);
+    Table.appendChild(newTr);
+
+    if (tableState) {
+        Table.style.display = 'block'
+    }
     document.body.appendChild(Table);
+    buttonInTable()
 }
+
 
 var imageMilk = document.getElementById("milkPicture");
 var imageBread = document.getElementById("breadPicture");
 var imageApple = document.getElementById("applePicture");
 
-function first(name) {
+function addFirstPicture(name, arrributeName) {
 
     var appDiv = document.getElementById("big_picture");
     appDiv.innerHTML = "";
+    appDiv.setAttribute("name", arrributeName)
     var imageDomElement = document.createElement("img");
     imageDomElement.setAttribute("width", 200)
     imageDomElement.setAttribute("height", 200)
@@ -143,7 +166,7 @@ imageMilk.addEventListener('click', function () {
     apple.style.display = 'none';
 
 
-    first("img/milk/milk1")
+    addFirstPicture("img/milk/milk1", "gallery")
     init("milk")
 
 });
@@ -158,7 +181,7 @@ imageBread.addEventListener('click', function () {
     var apple = document.getElementById("gallery3");
     apple.style.display = 'none';
 
-    first("img/bread/bread4")
+    addFirstPicture("img/bread/bread4", "gallery2")
     init("bread")
 });
 
@@ -173,25 +196,88 @@ imageApple.addEventListener('click', function () {
     var bread = document.getElementById("gallery2");
     bread.style.display = 'none';
 
-    first("img/apple/apple7")
+    addFirstPicture("img/apple/apple7", "gallery3")
     init("apple")
 });
 
 function init(name) {
 
+    if (listBasket.productList.length == 0) {
+        deleteTable()
+        emptyСart()
+    }
     var images = document.getElementsByName(name)
     for (var i = 0; i < images.length; i++) {
         images[i].onclick = changeBigPicture;
     }
+}
+document.onkeydown = checkKey;
+function checkKey(e) {
+
+
+    if (document.getElementById("big_picture").hasAttribute("name")) {
+        if (e.keyCode == '37') {
+            var appDiv = document.getElementById("big_picture");
+            var scr = appDiv.childNodes[0].src
+            var gallery = document.getElementById(appDiv.getAttribute("name"));
+            var galleryImg = gallery.children
+
+            var counterImg = galleryImg.length + 1;
+            for (var i = 0; i < galleryImg.length; i++) {
+                if (i == 0 && galleryImg[i].src == scr) {
+                    scr = galleryImg[galleryImg.length - 1].src
+                    break
+                } else if (galleryImg[i].src == scr) {
+                    scr = galleryImg[galleryImg.length - counterImg].src
+                    break
+                }
+                counterImg--;
+            }
+            changePictureOnKeyPress(appDiv, scr)
+
+        } else if (e.keyCode == '39') {
+
+            var appDiv = document.getElementById("big_picture");
+            var scr = appDiv.childNodes[0].src
+            var gallery = document.getElementById(appDiv.getAttribute("name"));
+            var galleryImg = gallery.children
+            var counterImg = galleryImg.length - 1;
+
+            for (var i = 0; i < galleryImg.length; i++) {
+                if (galleryImg[i].src == scr && i < galleryImg.length - 1) {
+                    scr = galleryImg[i + 1].src
+                    break
+
+                } else if (i == galleryImg.length - 1) {
+                    scr = galleryImg[counterImg].src
+                    break
+                }
+                counterImg--;
+            }
+            changePictureOnKeyPress(appDiv, scr)
+        }
+    }
+}
+
+function changePictureOnKeyPress(appDiv, scr) {
+    appDiv.innerHTML = "";
+    var imageDomElement = document.createElement("img");
+    imageDomElement.setAttribute("width", 200)
+    imageDomElement.setAttribute("height", 200)
+    imageDomElement.src = scr;
+    appDiv.appendChild(imageDomElement);
 }
 
 function changeBigPicture(eventObj) {
 
     var appDiv = document.getElementById("big_picture");
     appDiv.innerHTML = "";
-
     var eventElement = eventObj.target;
     var name = eventElement.getAttribute("name")
+
+    var gallery = eventElement.parentNode.getAttribute("id")
+    appDiv.setAttribute("name", gallery)
+
     var imageNameParts = eventElement.id.split("_");
     var src = "img/" + name + "/" + name + imageNameParts[1] + ".png";
 
@@ -200,5 +286,108 @@ function changeBigPicture(eventObj) {
     imageDomElement.setAttribute("height", 200)
     imageDomElement.src = src;
     appDiv.appendChild(imageDomElement);
+}
 
+window.onload = emptyСart
+
+jQuery(document).ready(function ($) {
+    var button = document.getElementById("button");
+    button.addEventListener('click', function () {
+
+        var tab = document.getElementById("tab");
+        if (tab.style.display == 'inline' || tab.style.display == 'block') {
+
+            $("#tab").slideUp("slow", function () {
+                tableState = false;
+            });
+        } else {
+            $("#tab").slideDown("slow", function () {
+                tableState = true;
+            });
+
+            $("#inputTable").slideUp("fast", function () {
+            });
+            $("#inputСommentTable").slideUp("fast", function () {
+
+            });
+        }
+    });
+
+});
+
+function buttonInTable() {
+    var nextbutton = document.getElementById("nextbutton");
+    nextbutton.addEventListener('click', function () {
+        var tab = document.getElementById("tab");
+        $("#tab").slideUp("fast", function () {
+            tableState = false;
+        });
+        if (!document.getElementById("inputTable")) {
+            createInput("inputTable", "input", "addressButtonNext", "Введите адрес")
+            callЕableСomments()
+        }
+        var inputTable = document.getElementById("inputTable");
+        if (inputTable.style.display == 'inline-block' || inputTable.style.display == 'block') {
+
+            $("#inputTable").slideUp("slow", function () {
+
+            });
+        } else {
+            $("#inputTable").slideDown("slow", function () {
+
+            });
+        }
+    });
+}
+
+function callЕableСomments() {
+
+    var addressButtonNext = document.getElementById("addressButtonNext");
+    addressButtonNext.addEventListener('click', function () {
+        var tab = document.getElementById("tab");
+        $("#inputTable").slideUp("fast", function () {
+        });
+
+
+        if (!document.getElementById("inputСommentTable")) {
+            createInput("inputСommentTable", "inputСomment", "inputСommentButtonNext", "Комментарий")
+        }
+        $("#inputСommentTable").slideDown("slow", function () {
+
+        });
+    });
+
+}
+
+function createInput(idTable, idInput, idButton, string) {
+    var inputTable = document.createElement('inputTable');
+    var newTr = document.createElement('tr');
+
+    var newtd = document.createElement('td');
+    newtd.textContent = string
+
+    newTr.appendChild(newtd);
+    inputTable.appendChild(newTr);
+    var newTr = document.createElement('tr');
+    inputTable.className = "table2"
+    inputTable.id = idTable
+
+    var input = document.createElement('textarea');
+    input.id = idInput
+    input.type = "text"
+    input.size = "200"
+    input.maxLength = "200"
+
+    newTr.appendChild(input);
+    inputTable.appendChild(newTr);
+
+    var newTr = document.createElement('tr');
+    var button = document.createElement('button');
+    button.textContent = "Далее"
+    button.id = idButton
+
+    newTr.appendChild(button);
+    inputTable.appendChild(newTr);
+
+    document.body.appendChild(inputTable);
 }
